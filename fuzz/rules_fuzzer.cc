@@ -1,0 +1,2 @@
+﻿#include "rules/rules.hpp"
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t*d,size_t s){std::string x((const char*)d,s);auto rs=AegisInspect::rules::parse_rules(x);AegisInspect::packet::PacketMetadata m;m.src_ip="10.0.0.1";m.dst_ip="192.168.1.5";m.protocol="tcp";m.dst_port=443;for(auto&r:rs.value.rules){(void)AegisInspect::rules::validate_rule(r);(void)AegisInspect::rules::normalize_rule(r);(void)AegisInspect::rules::matches_metadata(r,m);}return 0;}

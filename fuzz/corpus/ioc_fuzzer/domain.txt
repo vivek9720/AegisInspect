@@ -1,0 +1,2 @@
+﻿example.com
+malware.test,critical,95

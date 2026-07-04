@@ -1,0 +1,1 @@
+﻿drop tcp 10.0.0.0/8 any -> any 22 (msg:"ssh"; sid:3; rev:1;)

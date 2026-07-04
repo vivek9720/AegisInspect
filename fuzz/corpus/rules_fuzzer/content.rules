@@ -1,0 +1,1 @@
+﻿alert tcp any any -> 192.168.1.5 80 (msg:"host"; content:"Host:"; sid:2; rev:1;)

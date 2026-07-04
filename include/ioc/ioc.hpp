@@ -1,0 +1,5 @@
+﻿
+#pragma once
+#include "core/types.hpp"
+#include "packet/packet.hpp"
+namespace AegisInspect::ioc { enum class IocType{ip,cidr,domain,url,hash,unknown}; struct Ioc{IocType type=IocType::unknown;std::string value;core::Severity severity=core::Severity::medium;double confidence=0.5;std::string source,original;std::optional<core::IPv4Address> ip;std::optional<core::CidrRange> cidr;}; struct IocSet{std::vector<Ioc> indicators,allowlist;core::Diagnostics diagnostics;std::size_t duplicate_count=0;}; struct IocMatch{Ioc indicator;packet::PacketMetadata metadata;std::string reason;}; std::string type_name(IocType); Ioc normalize_ioc(std::string_view,std::string_view={}); core::Result<IocSet> parse_ioc_text(std::string_view,std::string_view={}); std::vector<IocMatch> match_packet_metadata(const IocSet&,const std::vector<packet::PacketMetadata>&); bool is_allowed(const IocSet&,const packet::PacketMetadata&); std::string summarize(const IocSet&); std::string matches_to_text(const std::vector<IocMatch>&); }

@@ -1,0 +1,5 @@
+﻿
+#pragma once
+#include "core/types.hpp"
+#include "packet/packet.hpp"
+namespace AegisInspect::rules { struct PortExpr{bool any=true;std::vector<std::uint16_t> ports;std::optional<std::pair<std::uint16_t,std::uint16_t>> range;bool negated=false;bool matches(std::uint16_t)const;std::string str()const;}; struct AddrExpr{bool any=true;std::vector<core::IPv4Address> ips;std::vector<core::CidrRange> cidrs;std::vector<std::string> domains;bool negated=false;bool matches(std::string_view)const;std::string str()const;}; struct Rule{std::string action,protocol;AddrExpr src_addr,dst_addr;PortExpr src_port,dst_port;std::string direction="->";std::map<std::string,std::vector<std::string>> options;std::string msg,classtype;std::uint64_t sid=0,rev=0;std::vector<std::string> contents;std::string raw;}; struct RuleSet{std::vector<Rule> rules;core::Diagnostics diagnostics;}; core::Result<RuleSet> parse_rules(std::string_view); std::vector<std::string> validate_rule(const Rule&); std::string normalize_rule(const Rule&); bool matches_metadata(const Rule&,const packet::PacketMetadata&); std::string summarize(const RuleSet&); }
